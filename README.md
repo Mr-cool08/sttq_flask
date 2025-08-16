@@ -74,6 +74,10 @@ curl -F "file=@/path/till/ljud.wav" \
 
 Svaret är JSON som innehåller transkriptets segment, sammanhängande text och SRT-format. Alla formulärparametrar (t.ex. `model`, `chunk_length`, `assign_strategy`, `do_diarize` m.fl.) stöds även i API:t.
 
+### Health check
+- `GET /health` – returns `"OK"` for the web interface.
+- `GET /api/health` – returns JSON `{ "status": "ok" }`.
+
 ## Tips
 - For long files consider running behind a reverse proxy and using a queue/background job system.
 - Set `do_diarize` to `False` if you do not have a Hugging Face token.
