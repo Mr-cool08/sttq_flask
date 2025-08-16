@@ -51,9 +51,9 @@ def index():
     return render_template("index.html")
 
 @app.route("/health")
-def health() -> tuple[str, int]:
-    """Simple health check for the web app."""
-    return "OK", 200
+def health() -> tuple[Response, int]:
+    """Simple health check for the web app and Render."""
+    return jsonify({"status": "ok"}), 200
 
 @app.route("/api/health")
 def api_health() -> tuple[Response, int]:
