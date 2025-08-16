@@ -1,8 +1,14 @@
-# STT + Diarisering (Flask)
+# Speech Transcription & Diarization (Flask)
 
-En uppdelad version av appen i separata filer (HTML, CSS, JS och Python).
+A simple Flask web app for transcribing audio or video files and optionally performing speaker diarization. Upload a file, choose your settings, and download the transcript as plain text, SRT, or JSON.
 
-## Struktur
+## Features
+- Speech-to-text transcription using Hugging Face models
+- Optional speaker diarization powered by `pyannote.audio`
+- Outputs `transcript.txt`, `transcript.srt`, and `transcript.json`
+- Lightweight web interface built with HTML, CSS, and JavaScript
+
+## Project Structure
 ```
 sttq_flask/
 ├─ app.py
@@ -22,32 +28,53 @@ sttq_flask/
 └─ .env.example
 ```
 
-## Kör lokalt
-1) Installera systemberoenden:
-   - **ffmpeg** måste finnas i `PATH`
-   - GPU (valfritt) med CUDA för högre fart
+## Requirements
+- Python 3.9+
+- `ffmpeg` available in your `PATH`
+- (Optional) NVIDIA GPU with CUDA for faster inference
 
-2) Skapa och aktivera virtuell miljö (valfritt) och installera Python-paket:
-```
-pip install -r requirements.txt
-```
+## Installation
+1. Clone the repository
+   ```bash
+   git clone https://github.com/USER/sttq_flask.git
+   cd sttq_flask
+   ```
+2. (Optional) create and activate a virtual environment
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+3. Install Python dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+   > `pyannote.audio` and `torch` may require specific versions depending on your platform/CUDA setup.
 
-> Obs: `pyannote.audio` och `torch` kan ta tid att installera och kan kräva specifika versioner beroende på din plattform/CUDA.
+4. Copy `.env.example` to `.env` and fill in your values
+   ```bash
+   cp .env.example .env
+   # then edit .env and provide your keys
+   ```
 
-3) Skapa `.env` från `.env.example` och fyll i:
-```
-FLASK_SECRET_KEY=byt-denna-hemliga-nyckel
-HUGGINGFACE_TOKEN=din-huggingface-token
-```
-
-4) Starta servern:
-```
+## Usage
+Run the development server:
+```bash
 python app.py
 ```
-Öppna http://127.0.0.1:5000
+Open <http://127.0.0.1:5000> in your browser. Upload an audio or video file, pick your options, and download the resulting transcripts.
 
-5) Ladda upp en ljud-/videofil och välj inställningar. Resultat returneras som en ZIP med `transcript.txt`, `transcript.srt` och `transcript.json`.
+## API
+Servern exponerar även en REST-endpoint för programmatisk åtkomst.
+
+```bash
+curl -F "file=@/path/till/ljud.wav" \
+     -F "language=sv" \
+     http://127.0.0.1:5000/api/transcribe
+```
+
+Svaret är JSON som innehåller transkriptets segment, sammanhängande text och SRT-format. Alla formulärparametrar (t.ex. `model`, `chunk_length`, `assign_strategy`, `do_diarize` m.fl.) stöds även i API:t.
 
 ## Tips
-- Vid långa filer: kör bakom reverse proxy och överväg kö/bakgrundsjobb.
-- Sätt `do_diarize` till av om du saknar HuggingFace-token.
+- For long files consider running behind a reverse proxy and using a queue/background job system.
+- Set `do_diarize` to `False` if you do not have a Hugging Face token.
+
