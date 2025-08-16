@@ -1,0 +1,10 @@
+flask
+python-dotenv
+tqdm
+numpy
+faster-whisper
+pyannote.audio
+torch
+torchaudio
+soundfile
+ffmpeg-python

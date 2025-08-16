@@ -1,0 +1,265 @@
+/* ========== Design tokens ========== */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #0f172a;            /* slate-900 */
+  --muted: #64748b;         /* slate-500 */
+  --border: #e2e8f0;        /* slate-200 */
+  --surface: #f8fafc;       /* slate-50 */
+  --accent: #111827;        /* gray-900 */
+  --accent-contrast: #ffffff;
+  --accent-soft: #1f2937;   /* gray-800 */
+  --focus: #2563eb;         /* blue-600 */
+  --danger: #b91c1c;        /* red-700 */
+
+  --radius: 14px;
+  --shadow: 0 10px 25px rgba(2, 6, 23, 0.06), 0 2px 8px rgba(2, 6, 23, 0.05);
+  --shadow-sm: 0 2px 6px rgba(2, 6, 23, 0.06);
+
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --input-h: 44px;
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0b1220;            /* slate-950-ish */
+    --fg: #e5e7eb;            /* slate-200 */
+    --muted: #94a3b8;         /* slate-400 */
+    --border: #1f2937;        /* gray-800 */
+    --surface: #0f172a;       /* slate-900 */
+    --accent: #2563eb;        /* blue-600 */
+    --accent-contrast: #ffffff;
+    --accent-soft: #1d4ed8;   /* blue-700 */
+    --focus: #60a5fa;         /* blue-400 */
+    --danger: #ef4444;        /* red-500 */
+    --shadow: none;
+    --shadow-sm: none;
+  }
+}
+
+/* ========== Base ========== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  padding: var(--space-8) var(--space-4);
+  font-family: var(--font);
+  background: radial-gradient(1200px 600px at 10% -10%, var(--surface), transparent 40%),
+              radial-gradient(1200px 600px at 110% -10%, var(--surface), transparent 40%),
+              var(--bg);
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+/* Container card */
+.card {
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(var(--space-5), 3vw, var(--space-8));
+}
+
+h1 {
+  margin: 0 0 var(--space-6) 0;
+  font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+  letter-spacing: -.01em;
+}
+
+/* ========== Form layout ========== */
+form p { margin: 0 0 var(--space-5); }
+label {
+  display: inline-block;
+  font-weight: 650;
+  font-size: .96rem;
+  margin-bottom: var(--space-2);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+input[type="file"] {
+  width: 100%;
+  height: var(--input-h);
+  padding: 0 var(--space-4);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  -webkit-appearance: none;
+}
+
+input[type="file"] {
+  padding: var(--space-2);
+  height: auto;
+  background: transparent;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--focus) 25%, transparent);
+  background: color-mix(in oklab, var(--surface) 70%, var(--bg));
+}
+
+/* Help text */
+.help {
+  display: block;
+  font-size: .86rem;
+  color: var(--muted);
+  margin-top: var(--space-2);
+  line-height: 1.35;
+}
+
+/* Checkboxes as stacked items for better mobile UX */
+.checkbox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+.checkbox input[type="checkbox"] {
+  width: 20px; height: 20px;
+  accent-color: var(--accent);
+}
+.checkbox label { margin: 0; }
+
+/* Rows -> responsivt grid */
+.row, .row3 {
+  display: grid;
+  gap: var(--space-5);
+}
+.row  { grid-template-columns: 1fr; }
+.row3 { grid-template-columns: 1fr; }
+
+@media (min-width: 640px) {
+  .row  { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 900px) {
+  .row3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Hint & flash */
+.hint {
+  background: color-mix(in oklab, var(--surface) 85%, transparent);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: var(--space-5);
+}
+.muted { color: var(--muted); font-size: .92rem; }
+.flash {
+  color: var(--danger);
+  background: color-mix(in oklab, var(--danger) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--danger) 25%, var(--border));
+  padding: var(--space-3) var(--space-4);
+  border-radius: 10px;
+  margin-bottom: var(--space-4);
+}
+
+/* ========== Buttons ========== */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 46px;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+  color: var(--accent-contrast);
+  font-weight: 700;
+  letter-spacing: .01em;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform .08s ease, box-shadow .15s ease, filter .15s ease;
+}
+button:hover { filter: brightness(1.02); }
+button:active { transform: translateY(1px); }
+button:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--focus) 45%, transparent);
+  outline-offset: 2px;
+}
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  filter: grayscale(.1);
+}
+
+/* ========== Progress bar ========== */
+.hidden { display: none; }
+
+.progress { margin-top: var(--space-5); }
+.progress__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: .95rem;
+}
+.progress__bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background: color-mix(in oklab, var(--border) 60%, var(--surface));
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent) 70%, var(--accent-contrast)));
+  border-radius: 9999px;
+  transition: width .2s ease;
+}
+.progress__fill.indeterminate {
+  width: 40% !important;
+  animation: indeterminate-move 1.2s infinite;
+}
+@keyframes indeterminate-move {
+  0%   { left: -40%; }
+  50%  { left: 30%; }
+  100% { left: 100%; }
+}
+.progress__note { margin-top: .35rem; color: var(--muted); }
+
+/* ========== Accessibility & motion ========== */
+:focus-visible {
+  outline: 3px solid color-mix(in oklab, var(--focus) 45%, transparent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ========== Small tweaks for mobile spacing ========== */
+@media (max-width: 399px) {
+  body { padding: var(--space-6) var(--space-3); }
+  .card { padding: var(--space-5); }
+  button { width: 100%; }
+}
