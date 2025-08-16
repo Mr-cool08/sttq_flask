@@ -75,7 +75,7 @@ curl -F "file=@/path/till/ljud.wav" \
 Svaret är JSON som innehåller transkriptets segment, sammanhängande text och SRT-format. Alla formulärparametrar (t.ex. `model`, `chunk_length`, `assign_strategy`, `do_diarize` m.fl.) stöds även i API:t.
 
 ### Health check
-- `GET /health` – returns `"OK"` for the web interface.
+- `GET /health` – returns JSON `{ "status": "ok" }` for the web interface and Render.
 - `GET /api/health` – returns JSON `{ "status": "ok" }`.
 
 ## Tips
