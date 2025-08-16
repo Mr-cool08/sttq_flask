@@ -63,6 +63,17 @@ python app.py
 ```
 Open <http://127.0.0.1:5000> in your browser. Upload an audio or video file, pick your options, and download the resulting transcripts.
 
+## API
+Servern exponerar även en REST-endpoint för programmatisk åtkomst.
+
+```bash
+curl -F "file=@/path/till/ljud.wav" \
+     -F "language=sv" \
+     http://127.0.0.1:5000/api/transcribe
+```
+
+Svaret är JSON som innehåller transkriptets segment, sammanhängande text och SRT-format. Alla formulärparametrar (t.ex. `model`, `chunk_length`, `assign_strategy`, `do_diarize` m.fl.) stöds även i API:t.
+
 ## Tips
 - For long files consider running behind a reverse proxy and using a queue/background job system.
 - Set `do_diarize` to `False` if you do not have a Hugging Face token.
