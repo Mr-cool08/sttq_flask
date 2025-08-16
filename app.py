@@ -7,7 +7,7 @@ import tempfile
 from pathlib import Path
 from typing import Optional, Tuple, List
 
-from flask import Flask, request, render_template, redirect, url_for, flash, send_file, after_this_request, jsonify
+from flask import Flask, request, render_template, redirect, url_for, flash, send_file, after_this_request, jsonify, Response
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 import math
@@ -49,6 +49,16 @@ def _segments_to_srt(segments) -> str:
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/health")
+def health() -> tuple[str, int]:
+    """Simple health check for the web app."""
+    return "OK", 200
+
+@app.route("/api/health")
+def api_health() -> tuple[Response, int]:
+    """JSON health check for API clients."""
+    return jsonify({"status": "ok"}), 200
 
 @app.route("/transcribe", methods=["POST"])
 def transcribe_route():
